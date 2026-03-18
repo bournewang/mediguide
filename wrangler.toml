@@ -1,0 +1,10 @@
+name = "mediguide"
+compatibility_date = "2026-03-18"
+
+[[kv_namespaces]]
+binding = "REQUESTS"
+id = "replace-with-your-requests-kv-id"
+
+[[kv_namespaces]]
+binding = "CONTACTS"
+id = "replace-with-your-contacts-kv-id"
