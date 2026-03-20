@@ -1,10 +1,8 @@
-name = "mediguide"
+name = "carebridge-china"
 compatibility_date = "2026-03-18"
+pages_build_output_dir = "dist"
 
-[[kv_namespaces]]
-binding = "REQUESTS"
-id = "replace-with-your-requests-kv-id"
-
-[[kv_namespaces]]
-binding = "CONTACTS"
-id = "replace-with-your-contacts-kv-id"
+[[d1_databases]]
+binding = "DB"
+database_name = "mediguide"
+database_id = "49d75ee1-4887-493a-b75d-36bcd7a6601b"

@@ -1,0 +1,713 @@
+import { FormEvent, useMemo, useState } from "react";
+import {
+  Activity,
+  BadgeDollarSign,
+  CalendarClock,
+  ClipboardPlus,
+  FileText,
+  Globe2,
+  HeartHandshake,
+  Hospital,
+  Languages,
+  MapPinned,
+  MessagesSquare,
+  ScanHeart,
+  ShieldCheck,
+  Stethoscope,
+  Syringe
+} from "lucide-react";
+
+type FormState = {
+  name: string;
+  contact: string;
+  city: string;
+  language: string;
+  symptoms: string;
+  urgency: string;
+  serviceDate: string;
+};
+
+const defaultForm: FormState = {
+  name: "",
+  contact: "",
+  city: "Shanghai",
+  language: "English",
+  symptoms: "",
+  urgency: "Within 24 hours",
+  serviceDate: ""
+};
+
+const cities = ["Shanghai", "Beijing", "Shenzhen", "Guangzhou", "Hangzhou"];
+
+const highlights = [
+  {
+    icon: HeartHandshake,
+    text: "Meet the patient at the hospital, hotel, or agreed location"
+  },
+  {
+    icon: ClipboardPlus,
+    text: "Help with registration, queues, payments, and pharmacy pickup"
+  },
+  {
+    icon: Languages,
+    text: "Translate between patient and hospital staff during the visit"
+  },
+  {
+    icon: FileText,
+    text: "Share a clear post-visit summary and next steps in English"
+  }
+];
+
+const steps = [
+  {
+    icon: MessagesSquare,
+    title: "Send your request",
+    copy: "Tell us your city, symptoms, preferred language, and when you need support."
+  },
+  {
+    icon: Stethoscope,
+    title: "We confirm the plan",
+    copy: "Our team reviews urgency, recommends the right hospital or department, and confirms pricing."
+  },
+  {
+    icon: MapPinned,
+    title: "Meet your companion",
+    copy: "An English-speaking companion helps you navigate the hospital visit from start to finish."
+  },
+  {
+    icon: FileText,
+    title: "Receive follow-up notes",
+    copy: "You get a plain-English recap of the visit, prescriptions, and suggested next steps."
+  }
+];
+
+const useCases = [
+  "Fever, cold, stomach pain, or general internal medicine",
+  "Children’s hospital visits and vaccination support",
+  "Dermatology, dental, eye, ENT, and women’s health visits",
+  "Health checkups, second visits, and lab result follow-ups"
+];
+
+const shanghaiAdvantages = [
+  {
+    icon: CalendarClock,
+    title: "Fast access to care",
+    copy: "Shanghai hospitals often provide quicker access to consultations, tests, and follow-up compared with many international markets."
+  },
+  {
+    icon: Hospital,
+    title: "Strong specialist resources",
+    copy: "Top-tier hospitals in Shanghai offer broad specialist coverage across internal medicine, pediatrics, dermatology, women’s health, imaging, and surgery."
+  },
+  {
+    icon: BadgeDollarSign,
+    title: "Cost-effective treatment",
+    copy: "Many consultations, scans, and routine procedures can be more cost-effective than equivalent care in the United States and other high-cost systems."
+  },
+  {
+    icon: Globe2,
+    title: "Advanced urban hospital network",
+    copy: "Shanghai combines major public hospitals, international departments, private clinics, pharmacies, and transport links in one highly connected city."
+  }
+];
+
+const companionBenefits = [
+  {
+    icon: Languages,
+    text: "Reduce language barriers during registration, consultation, payment, and pharmacy collection"
+  },
+  {
+    icon: MapPinned,
+    text: "Help patients understand hospital procedures, queues, departments, and next steps"
+  },
+  {
+    icon: ShieldCheck,
+    text: "Make complex hospital visits less stressful for families, business travelers, students, and expats"
+  },
+  {
+    icon: Activity,
+    text: "Provide clear support without replacing licensed doctors or medical advice"
+  }
+];
+
+const trustPoints = [
+  "Designed for foreigners navigating hospitals in China",
+  "English-speaking support with clear service boundaries",
+  "Transparent pricing and human coordination",
+  "Fast request review and direct follow-up"
+];
+
+const faqs = [
+  {
+    question: "Is this a medical service?",
+    answer:
+      "No. CareBridge China is a hospital navigation and accompaniment service. We do not diagnose, prescribe, or replace a licensed doctor."
+  },
+  {
+    question: "Can you help in emergencies?",
+    answer:
+      "For chest pain, breathing difficulty, severe bleeding, or other emergencies, call local emergency services or go to the nearest emergency department immediately."
+  },
+  {
+    question: "Do you only support public hospitals?",
+    answer:
+      "We support public hospitals, international departments, and selected private clinics depending on the city and the patient’s needs."
+  },
+  {
+    question: "How is pricing handled?",
+    answer:
+      "We show a transparent service fee for the companion. Hospital bills, tests, medicine, and transport are paid separately by the patient."
+  }
+];
+
+function App() {
+  const [form, setForm] = useState<FormState>(defaultForm);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [status, setStatus] = useState<string>("");
+
+  const nextAvailable = useMemo(() => {
+    const date = new Date();
+    date.setDate(date.getDate() + 1);
+    return date.toLocaleDateString("en-US", {
+      month: "short",
+      day: "numeric"
+    });
+  }, []);
+
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    setIsSubmitting(true);
+    setStatus("");
+
+    try {
+      const response = await fetch("/api/submit-request", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(form)
+      });
+
+      const payload = (await response.json()) as { message?: string };
+
+      if (!response.ok) {
+        throw new Error(payload.message || "Unable to submit your request.");
+      }
+
+      setStatus(payload.message || "Thanks — we received your request.");
+      setForm(defaultForm);
+    } catch (error) {
+      const message =
+        error instanceof Error ? error.message : "Something went wrong. Please try again.";
+      setStatus(message);
+    } finally {
+      setIsSubmitting(false);
+    }
+  }
+
+  return (
+    <div>
+      <header className="sticky top-0 z-50 border-b border-slate-200/80 bg-white/85 backdrop-blur-xl">
+        <div className="container-shell flex items-center justify-between py-4">
+          <a href="#top" className="text-lg font-semibold text-slate-900">
+            CareBridge China
+          </a>
+          <nav className="hidden gap-6 text-sm text-slate-600 md:flex">
+            <a href="#how-it-works">How it works</a>
+            <a href="#pricing">Pricing</a>
+            <a href="#faq">FAQ</a>
+          </nav>
+          <a
+            href="#request"
+                className="rounded-full bg-gradient-to-r from-brand-600 to-accent-500 px-4 py-2 text-sm font-medium text-white shadow-lg shadow-brand-500/20 transition hover:from-brand-700 hover:to-accent-600"
+          >
+            Request support
+          </a>
+        </div>
+      </header>
+
+      <main id="top">
+        <section className="container-shell grid gap-10 py-20 lg:grid-cols-[1.15fr_0.85fr] lg:items-center">
+          <div>
+            <span className="inline-flex rounded-full border border-brand-200 bg-white/80 px-4 py-1 text-sm font-medium text-brand-800 shadow-sm">
+              Hospital Companion &amp; Medical Guidance in China
+            </span>
+            <h1 className="mt-6 max-w-3xl text-5xl font-semibold tracking-tight text-slate-900 md:text-6xl">
+              English-speaking hospital support for foreigners in Shanghai.
+            </h1>
+            <p className="mt-6 max-w-2xl text-lg leading-8 text-slate-600">
+              CareBridge China helps you book, navigate, and complete hospital visits with
+              in-person accompaniment, clear communication, and practical support from
+              registration to pharmacy pickup.
+            </p>
+            <div className="mt-8 flex flex-col gap-4 sm:flex-row">
+              <a
+                href="#request"
+                className="rounded-full bg-gradient-to-r from-brand-600 via-brand-500 to-accent-500 px-6 py-3 text-center text-sm font-semibold text-white shadow-xl shadow-brand-500/20 transition hover:from-brand-700 hover:to-accent-600"
+              >
+                Request hospital support
+              </a>
+              <a
+                href="#how-it-works"
+                className="rounded-full border border-brand-200 bg-white/80 px-6 py-3 text-center text-sm font-semibold text-slate-700 transition hover:border-brand-300 hover:bg-white"
+              >
+                See how it works
+              </a>
+            </div>
+            <div className="mt-8 flex flex-wrap gap-3 text-sm text-slate-500">
+              <span className="rounded-full border border-white/80 bg-white/85 px-4 py-2 shadow-sm">
+                Shanghai service coverage
+              </span>
+              <span className="rounded-full border border-white/80 bg-white/85 px-4 py-2 shadow-sm">
+                English-speaking support
+              </span>
+              <span className="rounded-full border border-white/80 bg-white/85 px-4 py-2 shadow-sm">
+                Next available: {nextAvailable}
+              </span>
+            </div>
+            <div className="mt-8 grid gap-3 sm:grid-cols-2">
+              {trustPoints.map((item) => (
+                <div
+                  key={item}
+                  className="rounded-2xl border border-white/80 bg-white/80 px-4 py-3 text-sm text-slate-600 shadow-sm"
+                >
+                  {item}
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="card relative overflow-hidden">
+            <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-brand-500 via-brand-400 to-accent-400" />
+            <p className="text-sm font-semibold uppercase tracking-[0.16em] text-brand-700">
+              What we help with
+            </p>
+            <ul className="mt-6 space-y-4 text-sm leading-6 text-slate-700">
+              {highlights.map((item) => {
+                const Icon = item.icon;
+
+                return (
+                  <li key={item.text} className="flex gap-3">
+                    <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-2xl bg-brand-50 text-brand-600">
+                      <Icon className="h-4 w-4" />
+                    </span>
+                    <span>{item.text}</span>
+                  </li>
+                );
+              })}
+            </ul>
+            <div className="mt-8 rounded-2xl bg-slate-50 p-5">
+              <p className="text-sm font-semibold text-slate-900">Important note</p>
+              <p className="mt-2 text-sm leading-6 text-slate-600">
+                We are a hospital navigation service, not a medical provider. In emergencies,
+                seek urgent medical care immediately.
+              </p>
+            </div>
+          </div>
+        </section>
+
+	        <section id="service" className="section-tint py-16">
+          <div className="container-shell">
+            <h2 className="section-title">Professional hospital accompaniment</h2>
+            <p className="section-copy">
+              CareBridge China helps foreign patients arrange trusted, English-speaking
+              hospital support with a clear, reliable service process.
+            </p>
+            <div className="mt-10 grid gap-6 md:grid-cols-2 xl:grid-cols-4">
+              {[
+              {
+                icon: ClipboardPlus,
+                title: "Before the visit",
+                copy: "Case intake, urgency check, hospital matching, and pre-visit preparation."
+              },
+              {
+                icon: Hospital,
+                title: "At the hospital",
+                copy: "Registration help, live translation, queue navigation, and payment support."
+              },
+              {
+                icon: FileText,
+                title: "After the visit",
+                copy: "English summary, prescription reminders, and follow-up guidance."
+              },
+              {
+                icon: HeartHandshake,
+                title: "Coordinated support",
+                copy: "Each request is reviewed and arranged carefully to ensure a smooth service experience."
+              }
+            ].map((item) => (
+              <article
+                key={item.title}
+                className="card border-brand-100/70 transition duration-200 hover:-translate-y-1 hover:shadow-2xl"
+              >
+                <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-brand-50 text-brand-600">
+                  <item.icon className="h-5 w-5" />
+                </span>
+                <h3 className="text-lg font-semibold text-slate-900">{item.title}</h3>
+                <p className="mt-3 text-sm leading-6 text-slate-600">{item.copy}</p>
+              </article>
+            ))}
+          </div>
+          </div>
+        </section>
+
+        <section className="section-surface py-16">
+          <div className="container-shell">
+            <h2 className="section-title">Why seek care in Shanghai</h2>
+            <p className="section-copy">
+              Shanghai offers a practical combination of advanced hospital resources, efficient
+              outpatient care, and comparatively reasonable medical costs for many common healthcare needs.
+            </p>
+            <div className="mt-10 grid gap-6 md:grid-cols-2 xl:grid-cols-4">
+              {shanghaiAdvantages.map((item) => (
+                <article
+                  key={item.title}
+                  className="card border-slate-200/80 transition duration-200 hover:-translate-y-1 hover:shadow-2xl"
+                >
+                  <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-accent-50 text-accent-600">
+                    <item.icon className="h-5 w-5" />
+                  </span>
+                  <h3 className="text-lg font-semibold text-slate-900">{item.title}</h3>
+                  <p className="mt-3 text-sm leading-6 text-slate-600">{item.copy}</p>
+                </article>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section id="how-it-works" className="section-surface py-16">
+          <div className="container-shell">
+            <h2 className="section-title">How it works</h2>
+            <p className="section-copy">
+              Our service process is designed to be clear, efficient, and reassuring from the first request to follow-up.
+            </p>
+            <div className="mt-10 grid gap-6 lg:grid-cols-4">
+              {steps.map((step, index) => (
+                <article
+                  key={step.title}
+                  className="card transition duration-200 hover:-translate-y-1 hover:shadow-2xl"
+                >
+                  <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-brand-50 text-brand-600">
+                    <step.icon className="h-5 w-5" />
+                  </span>
+                  <span className="text-sm font-semibold text-accent-600">Step {index + 1}</span>
+                  <h3 className="mt-3 text-lg font-semibold text-slate-900">{step.title}</h3>
+                  <p className="mt-3 text-sm leading-6 text-slate-600">{step.copy}</p>
+                </article>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="py-16">
+          <div className="container-shell grid gap-6 lg:grid-cols-[0.95fr_1.05fr]">
+            <div className="card border-slate-200/80">
+              <h2 className="text-2xl font-semibold text-slate-900">Why patients choose a medical companion</h2>
+              <ul className="mt-6 space-y-4 text-sm leading-6 text-slate-600">
+                {companionBenefits.map((item) => {
+                  const Icon = item.icon;
+
+                  return (
+                    <li key={item.text} className="flex gap-3 border-b border-slate-100 pb-4 last:border-b-0 last:pb-0">
+                      <span className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-2xl bg-brand-50 text-brand-600">
+                        <Icon className="h-4 w-4" />
+                      </span>
+                      <span>{item.text}</span>
+                    </li>
+                  );
+                })}
+              </ul>
+            </div>
+            <div className="card border-slate-200/80">
+              <h2 className="text-2xl font-semibold text-slate-900">Common visit types</h2>
+              <ul className="mt-6 space-y-4 text-sm leading-6 text-slate-600">
+                {useCases.map((item) => (
+                  <li key={item} className="flex gap-3 border-b border-slate-100 pb-4 last:border-b-0 last:pb-0">
+                    <span className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-2xl bg-accent-50 text-accent-600">
+                      {item.includes("Children") ? (
+                        <Syringe className="h-4 w-4" />
+                      ) : item.includes("Dermatology") ? (
+                        <ScanHeart className="h-4 w-4" />
+                      ) : (
+                        <Stethoscope className="h-4 w-4" />
+                      )}
+                    </span>
+                    <span>{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div className="rounded-3xl border border-brand-100 bg-gradient-to-br from-brand-50/95 via-white to-orange-50/65 p-6 shadow-soft lg:col-span-2">
+              <div className="mb-6 h-1 w-24 rounded-full bg-gradient-to-r from-brand-500 to-accent-400" />
+              <h2 className="text-2xl font-semibold text-slate-900">Service coverage</h2>
+              <div className="mt-6 grid gap-4 sm:grid-cols-2">
+                {[
+                  ["Primary city", "Shanghai"],
+                  ["Languages", "English"],
+                  ["Service model", "Personal hospital companion"],
+                  ["Support process", "Request intake and coordination"]
+                ].map(([label, value]) => (
+                  <div key={label} className="rounded-2xl border border-brand-100 bg-white/80 p-5 shadow-sm">
+                    <p className="text-sm font-medium text-slate-500">{label}</p>
+                    <p className="mt-2 text-base font-semibold text-slate-900">{value}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="pricing" className="section-surface py-16">
+          <div className="container-shell">
+            <h2 className="section-title">Transparent pricing</h2>
+            <p className="section-copy">
+              Our service fees are shown clearly in advance. Hospital registration, consultation,
+              tests, medication, and transport are charged separately by the medical provider.
+            </p>
+            <div className="mt-10 grid gap-6 lg:grid-cols-3">
+              {[
+                {
+                  title: "Half-day accompaniment",
+                  price: "¥799",
+                  copy: "Up to 4 hours of weekday hospital support, including navigation, in-person interpretation, and visit coordination."
+                },
+                {
+                  title: "Full-day accompaniment",
+                  price: "¥1,499",
+                  copy: "Up to 8 hours of support for multi-department visits, testing, extended waiting time, or more complex hospital arrangements."
+                },
+                {
+                  title: "Priority and custom support",
+                  price: "From ¥149",
+                  copy: "Remote pre-visit coordination starts from ¥149. Same-day, weekend, early morning, and custom requests are quoted separately."
+                }
+              ].map((item) => (
+                <article
+                  key={item.title}
+                  className="card relative overflow-hidden border-slate-200/80 transition duration-200 hover:-translate-y-1 hover:shadow-2xl"
+                >
+                  <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-brand-500 to-accent-400" />
+                  <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-brand-50 text-brand-600">
+                    {item.title === "Half-day accompaniment" ? (
+                      <CalendarClock className="h-5 w-5" />
+                    ) : item.title === "Full-day accompaniment" ? (
+                      <ClipboardPlus className="h-5 w-5" />
+                    ) : (
+                      <BadgeDollarSign className="h-5 w-5" />
+                    )}
+                  </span>
+                  <h3 className="text-lg font-semibold text-slate-900">{item.title}</h3>
+                  <p className="mt-4 text-4xl font-semibold text-brand-700">{item.price}</p>
+                  <p className="mt-4 text-sm leading-6 text-slate-600">{item.copy}</p>
+                </article>
+              ))}
+            </div>
+            <div className="mt-8 rounded-3xl border border-slate-200 bg-white/80 p-6 shadow-soft">
+              <div className="grid gap-4 md:grid-cols-3">
+                <div>
+                  <p className="text-sm font-semibold text-slate-900">Additional hour</p>
+                  <p className="mt-2 text-sm leading-6 text-slate-600">
+                    <span className="font-medium text-slate-900">¥220</span> per additional hour,
+                    subject to staff availability.
+                  </p>
+                </div>
+                <div>
+                  <p className="text-sm font-semibold text-slate-900">Urgent or weekend requests</p>
+                  <p className="mt-2 text-sm leading-6 text-slate-600">
+                    Priority, weekend, and early-morning services may include a{" "}
+                    <span className="font-medium text-slate-900">20%–40%</span> surcharge.
+                  </p>
+                </div>
+                <div>
+                  <p className="text-sm font-semibold text-slate-900">Not included</p>
+                  <p className="mt-2 text-sm leading-6 text-slate-600">
+                    Hospital bills, tests, medicine, transport, and third-party interpreter fees are billed separately if applicable.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="request" className="section-tint py-16">
+          <div className="container-shell grid gap-8 lg:grid-cols-[0.8fr_1.2fr]">
+            <div>
+              <h2 className="section-title">Request hospital accompaniment</h2>
+              <p className="section-copy">
+                Complete the form below and our team will review your request, confirm availability,
+                and contact you with the next steps.
+              </p>
+              <div className="mt-8 space-y-4 rounded-3xl border border-brand-100 bg-white/70 p-6 shadow-soft">
+                <div>
+                  <p className="text-sm font-semibold text-slate-900">What happens next</p>
+                  <p className="mt-2 text-sm leading-6 text-slate-600">
+                    After you submit your request, we review the case, confirm service
+                    availability, and contact you directly with timing, pricing, and the
+                    recommended next step.
+                  </p>
+                </div>
+                <div>
+                  <p className="text-sm font-semibold text-slate-900">Best for</p>
+                  <p className="mt-2 text-sm leading-6 text-slate-600">
+                    Outpatient visits, second opinions, common specialist visits, health checkups,
+                    family support, and first-time hospital visits in Shanghai.
+                  </p>
+                </div>
+              </div>
+              <div className="mt-8 rounded-3xl border border-amber-200 bg-gradient-to-br from-amber-50 to-orange-50 p-6">
+                <p className="text-sm font-semibold text-amber-900">Emergency disclaimer</p>
+                <p className="mt-2 text-sm leading-6 text-amber-800">
+                  If the patient has severe chest pain, trouble breathing, heavy bleeding, loss of
+                  consciousness, or other emergency symptoms, go to the nearest emergency department
+                  immediately.
+                </p>
+              </div>
+            </div>
+
+            <form onSubmit={handleSubmit} className="card border-white/80 grid gap-5">
+              <div className="grid gap-5 md:grid-cols-2">
+                <label className="grid gap-2 text-sm font-medium text-slate-700">
+                  Full name
+                  <input
+                    required
+                    value={form.name}
+                    onChange={(event) => setForm({ ...form, name: event.target.value })}
+                    className="rounded-2xl border border-slate-300 px-4 py-3 outline-none transition focus:border-brand-500"
+                    placeholder="Jane Smith"
+                  />
+                </label>
+                <label className="grid gap-2 text-sm font-medium text-slate-700">
+                  Email or WeChat
+                  <input
+                    required
+                    value={form.contact}
+                    onChange={(event) => setForm({ ...form, contact: event.target.value })}
+                    className="rounded-2xl border border-slate-300 px-4 py-3 outline-none transition focus:border-brand-500"
+                    placeholder="jane@email.com / wechat-id"
+                  />
+                </label>
+              </div>
+
+              <div className="grid gap-5 md:grid-cols-3">
+                <label className="grid gap-2 text-sm font-medium text-slate-700">
+                  City
+                  <select
+                    value={form.city}
+                    onChange={(event) => setForm({ ...form, city: event.target.value })}
+                    className="rounded-2xl border border-slate-300 px-4 py-3 outline-none transition focus:border-brand-500"
+                  >
+                    {cities.map((city) => (
+                      <option key={city}>{city}</option>
+                    ))}
+                  </select>
+                </label>
+                <label className="grid gap-2 text-sm font-medium text-slate-700">
+                  Language
+                  <input
+                    value={form.language}
+                    onChange={(event) => setForm({ ...form, language: event.target.value })}
+                    className="rounded-2xl border border-slate-300 px-4 py-3 outline-none transition focus:border-brand-500"
+                    placeholder="English"
+                  />
+                </label>
+                <label className="grid gap-2 text-sm font-medium text-slate-700">
+                  Service date
+                  <input
+                    type="date"
+                    value={form.serviceDate}
+                    onChange={(event) => setForm({ ...form, serviceDate: event.target.value })}
+                    className="rounded-2xl border border-slate-300 px-4 py-3 outline-none transition focus:border-brand-500"
+                  />
+                </label>
+              </div>
+
+              <label className="grid gap-2 text-sm font-medium text-slate-700">
+                Urgency
+                <select
+                  value={form.urgency}
+                  onChange={(event) => setForm({ ...form, urgency: event.target.value })}
+                  className="rounded-2xl border border-slate-300 px-4 py-3 outline-none transition focus:border-brand-500"
+                >
+                  <option>Within 24 hours</option>
+                  <option>Within 3 days</option>
+                  <option>This week</option>
+                  <option>Just planning ahead</option>
+                </select>
+              </label>
+
+              <label className="grid gap-2 text-sm font-medium text-slate-700">
+                Symptoms or hospital need
+                <textarea
+                  required
+                  rows={5}
+                  value={form.symptoms}
+                  onChange={(event) => setForm({ ...form, symptoms: event.target.value })}
+                  className="rounded-2xl border border-slate-300 px-4 py-3 outline-none transition focus:border-brand-500"
+                  placeholder="Describe the issue, preferred hospital, or the kind of support needed."
+                />
+              </label>
+
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                className="rounded-full bg-gradient-to-r from-brand-600 to-accent-500 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-brand-500/20 transition hover:from-brand-700 hover:to-accent-600 disabled:cursor-not-allowed disabled:from-brand-300 disabled:to-brand-300"
+              >
+                {isSubmitting ? "Submitting..." : "Submit request"}
+              </button>
+
+              {status ? <p className="text-sm text-slate-600">{status}</p> : null}
+            </form>
+          </div>
+        </section>
+
+        <section id="faq" className="section-surface py-16">
+          <div className="container-shell">
+            <h2 className="section-title">Frequently asked questions</h2>
+            <div className="mt-10 grid gap-6 lg:grid-cols-2">
+              {faqs.map((item) => (
+                <article
+                  key={item.question}
+                  className="card transition duration-200 hover:-translate-y-1 hover:shadow-2xl"
+                >
+                  <h3 className="text-lg font-semibold text-slate-900">{item.question}</h3>
+                  <p className="mt-3 text-sm leading-6 text-slate-600">{item.answer}</p>
+                </article>
+              ))}
+            </div>
+            <div className="mt-12 rounded-3xl border border-brand-100 bg-gradient-to-r from-brand-50 via-white to-orange-50 p-8 text-center shadow-soft">
+              <h3 className="text-2xl font-semibold text-slate-900">
+                Need support for a hospital visit in Shanghai?
+              </h3>
+              <p className="mx-auto mt-3 max-w-2xl text-sm leading-6 text-slate-600">
+                Submit your request and our team will review the case, confirm availability, and
+                contact you directly.
+              </p>
+              <a
+                href="#request"
+                className="mt-6 inline-flex rounded-full bg-gradient-to-r from-brand-600 to-accent-500 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-brand-500/20 transition hover:from-brand-700 hover:to-accent-600"
+              >
+                Request support now
+              </a>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <footer className="border-t border-slate-200 bg-slate-950 py-10 text-slate-300">
+        <div className="container-shell flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+          <div>
+            <p className="font-semibold text-white">CareBridge China</p>
+            <p className="mt-2 text-sm text-slate-400">
+              Hospital accompaniment for foreigners navigating care in China.
+            </p>
+          </div>
+          <div className="text-sm text-slate-400">
+            <p>Contact: hello@mediguide.cn · WeChat: mediguide-service</p>
+          </div>
+        </div>
+      </footer>
+    </div>
+  );
+}
+
+export default App;

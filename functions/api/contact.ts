@@ -1,32 +1,34 @@
+import { json } from "../_lib/http";
+
 interface Env {
-  CONTACTS?: KVNamespace;
+  DB: D1Database;
 }
 
 export const onRequestPost: PagesFunction<Env> = async (context) => {
-  const payload = await context.request.json<Record<string, string>>();
+  let payload: Record<string, string>;
+
+  try {
+    payload = await context.request.json<Record<string, string>>();
+  } catch {
+    return json({ message: "Invalid request body." }, { status: 400 });
+  }
 
   if (!payload.name || !payload.message || !payload.contact) {
-    return new Response(JSON.stringify({ message: "Missing required contact fields." }), {
-      status: 400,
-      headers: {
-        "content-type": "application/json; charset=utf-8"
-      }
-    });
+    return json({ message: "Missing required contact fields." }, { status: 400 });
   }
 
-  if (context.env.CONTACTS) {
-    await context.env.CONTACTS.put(
-      `contact:${crypto.randomUUID()}`,
-      JSON.stringify({
-        ...payload,
-        submittedAt: new Date().toISOString()
-      })
-    );
-  }
+  await context.env.DB.prepare(
+    `INSERT INTO contact_messages (id, name, contact, message, created_at)
+     VALUES (?, ?, ?, ?, ?)`
+  )
+    .bind(
+      crypto.randomUUID(),
+      payload.name.trim(),
+      payload.contact.trim(),
+      payload.message.trim(),
+      new Date().toISOString()
+    )
+    .run();
 
-  return new Response(JSON.stringify({ message: "Message received." }), {
-    headers: {
-      "content-type": "application/json; charset=utf-8"
-    }
-  });
+  return json({ success: true, message: "Message received." });
 };
