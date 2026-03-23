@@ -50,6 +50,29 @@ type LandingPage = {
   boundary: string;
   cta: string;
   keywords: string[];
+  faqs: Array<{
+    question: string;
+    answer: string;
+  }>;
+};
+
+type ArticlePage = {
+  path: string;
+  title: string;
+  description: string;
+  keywords: string[];
+  eyebrow: string;
+  heading: string;
+  intro: string;
+  sections: Array<{
+    title: string;
+    paragraphs?: string[];
+    bullets?: string[];
+  }>;
+  references?: Array<{
+    label: string;
+    url: string;
+  }>;
 };
 
 type LeadReportItem = {
@@ -261,6 +284,23 @@ const landingPages: LandingPage[] = [
       "english-speaking hospital support shanghai",
       "hospital help for foreigners shanghai",
       "hospital companion shanghai"
+    ],
+    faqs: [
+      {
+        question: "Can foreigners go to hospitals in Shanghai without speaking Chinese?",
+        answer:
+          "Yes, but the process can still be difficult without language support or familiarity with the hospital system. Many foreigners prefer help with registration, communication, and payment steps."
+      },
+      {
+        question: "Does CareBridge China choose the hospital for the patient?",
+        answer:
+          "CareBridge China can help review the case and recommend a practical hospital or department option, but it is not a medical provider and does not replace licensed clinical judgment."
+      },
+      {
+        question: "What does English-speaking hospital support include?",
+        answer:
+          "Support can include intake review, hospital coordination, in-person accompaniment, live interpretation during the visit, and a clear English summary afterward."
+      }
     ]
   },
   {
@@ -300,6 +340,23 @@ const landingPages: LandingPage[] = [
       "hospital translator shanghai",
       "hospital companion shanghai",
       "medical translator shanghai"
+    ],
+    faqs: [
+      {
+        question: "Is hospital translation the same as hospital accompaniment?",
+        answer:
+          "Not always. Translation focuses on communication, while accompaniment also helps with hospital flow, registration, queues, payments, and next steps after the visit."
+      },
+      {
+        question: "Can a hospital companion help during specialist visits?",
+        answer:
+          "Yes. Specialist visits, testing days, and multi-step appointments are some of the situations where accompaniment is most useful for foreign patients."
+      },
+      {
+        question: "Does CareBridge China provide medical advice?",
+        answer:
+          "No. CareBridge China supports navigation and communication during the hospital visit. Diagnosis and treatment remain with licensed medical providers."
+      }
     ]
   },
   {
@@ -339,11 +396,586 @@ const landingPages: LandingPage[] = [
       "pediatric hospital help shanghai",
       "foreign families hospital support shanghai",
       "children hospital companion shanghai"
+    ],
+    faqs: [
+      {
+        question: "Can CareBridge China help foreign parents during pediatric hospital visits?",
+        answer:
+          "Yes. The service is designed to reduce confusion for foreign parents by helping with registration, communication, hospital flow, and practical next steps."
+      },
+      {
+        question: "Is this useful for common child illness visits?",
+        answer:
+          "Yes. Families often request support for fever, follow-up visits, vaccinations, and other pediatric appointments where clear communication matters."
+      },
+      {
+        question: "What should parents do in a pediatric emergency?",
+        answer:
+          "In emergencies, parents should go directly to the nearest emergency department immediately. CareBridge China is not an emergency medical provider."
+      }
     ]
   }
 ];
 
 const siteUrl = "https://carebridgechina.com";
+
+const articlePages: ArticlePage[] = [
+  {
+    path: "/foreigner-friendly-hospitals-shanghai",
+    title: "Top 10 Foreigner-Friendly Hospitals in Shanghai for Expats | CareBridge China",
+    description:
+      "Looking for foreigner-friendly hospitals in Shanghai? Explore 10 top hospitals with international departments, English-speaking services, and expat-friendly care, plus how CareBridge China helps.",
+    keywords: [
+      "foreigner-friendly hospitals in shanghai",
+      "international hospitals in shanghai",
+      "english-speaking hospitals in shanghai",
+      "expat healthcare in shanghai",
+      "hospital companion service in shanghai"
+    ],
+    eyebrow: "Shanghai Hospital Guide for Foreigners",
+    heading: "Top 10 foreigner-friendly hospitals in Shanghai",
+    intro:
+      "Finding the right hospital in Shanghai can be difficult if you are dealing with language barriers, unfamiliar registration systems, insurance questions, or urgent health concerns. For expats, international students, business travelers, and foreign families, the best hospital is often the one that combines strong care with a smoother patient experience.",
+    sections: [
+      {
+        title: "What makes a hospital foreigner-friendly in Shanghai",
+        paragraphs: [
+          "The most foreigner-friendly hospitals in Shanghai usually offer a mix of English-speaking support, international medical departments, easier appointment systems, and a patient journey that is easier to understand when you are already stressed.",
+          "Some are private international hospitals built around expat demand. Others are major public hospitals with international clinics or special service channels for foreign patients who want stronger specialist resources."
+        ],
+        bullets: [
+          "English-speaking doctors, nurses, or patient coordinators",
+          "International departments or VIP clinics",
+          "Experience serving expats and overseas patients",
+          "More practical support for booking, payment, and navigation",
+          "Better fit for foreigners who do not want to manage the process alone"
+        ]
+      },
+      {
+        title: "Top 10 hospitals in Shanghai for foreign patients",
+        bullets: [
+          "Shanghai Jiahui International Hospital",
+          "Shanghai United Family Hospital",
+          "Raffles Hospital Shanghai",
+          "Shanghai East International Medical Center",
+          "Parkway Shanghai Hospital",
+          "Shanghai DeltaHealth Hospital",
+          "Huadong Hospital Affiliated to Fudan University",
+          "Huashan Hospital Affiliated to Fudan University",
+          "Zhongshan Hospital Affiliated to Fudan University",
+          "Shanghai First Maternity and Infant Hospital"
+        ]
+      },
+      {
+        title: "How to choose the right hospital",
+        paragraphs: [
+          "The best option depends on what you need. If you want a familiar private-hospital experience with stronger English-language support, international private hospitals are often the easiest starting point. If you need advanced specialist care, major public hospitals with international departments may be the better fit.",
+          "For maternity, pediatrics, fertility, or women’s health, specialist hospitals such as Shanghai First Maternity and Infant Hospital and International Peace Maternity and Child Health Hospital may also be worth considering depending on the case."
+        ],
+        bullets: [
+          "Choose private international hospitals for convenience and built-in language support",
+          "Choose top public hospitals for stronger specialist depth",
+          "Check whether your case needs general medicine, maternity, pediatrics, or a specialist",
+          "Think about whether you need direct billing, translation, or in-person guidance"
+        ]
+      },
+      {
+        title: "Why hospital visits can still feel difficult",
+        paragraphs: [
+          "Even at a foreigner-friendly hospital, the process may still include registration counters, multiple waiting areas, payment steps, pharmacy collection, and follow-up instructions that are hard to manage when you are sick or anxious.",
+          "Many foreign patients are not just looking for a doctor. They need help deciding where to go, understanding what to bring, communicating clearly during the visit, and making sure nothing gets lost between departments."
+        ]
+      },
+      {
+        title: "How our hospital companion service in Shanghai helps",
+        paragraphs: [
+          "CareBridge China supports foreigners before, during, and after hospital visits in Shanghai. We help clients choose a practical hospital option, prepare for the visit, and get through the process with less confusion.",
+          "Our service is designed for expats, international families, students, and visitors who want practical bilingual support without trying to navigate the hospital system alone."
+        ],
+        bullets: [
+          "Hospital and department matching based on your situation",
+          "Appointment coordination and pre-visit preparation",
+          "In-person hospital accompaniment when needed",
+          "Bilingual support during registration, consultation, payment, and pharmacy pickup",
+          "Clear follow-up guidance after the visit"
+        ]
+      },
+      {
+        title: "Final takeaway",
+        paragraphs: [
+          "Shanghai has many excellent hospitals for foreigners, but the right choice depends on your medical needs, language preferences, and comfort level with the local system. Choosing the right hospital is the first step. Getting the right support can make the whole experience much easier.",
+          "If you are looking for foreigner-friendly hospitals in Shanghai and want help deciding where to go or how to manage the visit, CareBridge China can help you move through the process with more clarity and less stress."
+        ]
+      }
+    ],
+    references: [
+      {
+        label: "Shanghai official English directory: Hospitals",
+        url: "https://english.shanghai.gov.cn/en-Hospitals/index.html"
+      },
+      {
+        label: "Shanghai Jiahui International Hospital listing",
+        url: "https://english.shanghai.gov.cn/en-Hospitals/20241015/0713301b57674e95b6f7e8b91420258a.html"
+      },
+      {
+        label: "Shanghai United Family Hospital listing",
+        url: "https://english.shanghai.gov.cn/en-Hospitals/20241011/7bdecbcd193f4e2aab0de9f40e3b1001.html"
+      },
+      {
+        label: "Raffles Hospital Shanghai listing",
+        url: "https://english.shanghai.gov.cn/en-Hospitals/20241011/e50f1b8b9ea3482d90b6ef261388947d.html"
+      }
+    ]
+  },
+  {
+    path: "/guides/hospital-visit-shanghai-foreigner",
+    title: "How Foreigners Can Prepare for a Hospital Visit in Shanghai | CareBridge China",
+    description:
+      "A practical guide for foreigners visiting a hospital in Shanghai, including what to bring, how the process works, and where support helps most.",
+    keywords: [
+      "hospital visit shanghai foreigner",
+      "how to go to hospital in shanghai as a foreigner",
+      "prepare for hospital visit shanghai"
+    ],
+    eyebrow: "Guide for Foreigners in Shanghai",
+    heading: "How foreigners can prepare for a hospital visit in Shanghai",
+    intro:
+      "If you have never visited a hospital in Shanghai before, the process can feel harder than the medical problem itself. The system is usually efficient, but it can be confusing if you do not read Chinese or do not know how registration, payments, and department routing work.",
+    sections: [
+      {
+        title: "What to prepare before you go",
+        bullets: [
+          "Your passport or identification",
+          "Your phone with local payment options if available",
+          "Any previous test reports, prescriptions, or medical notes",
+          "A short summary of your symptoms in English and, if possible, Chinese",
+          "A rough idea of which department you may need"
+        ]
+      },
+      {
+        title: "What usually happens during the visit",
+        paragraphs: [
+          "A hospital visit often starts with registration, either at a counter or through a self-service process. After that, patients usually move between waiting areas, consultation rooms, payment counters, testing departments, and the pharmacy.",
+          "Even when the medical care itself is straightforward, the logistics can feel difficult for foreigners because each step may happen in a different area and instructions may not be clearly available in English."
+        ]
+      },
+      {
+        title: "Where foreigners usually get stuck",
+        bullets: [
+          "Choosing the right hospital or department",
+          "Understanding registration and queue flow",
+          "Communicating symptoms clearly",
+          "Handling payment steps and receipts",
+          "Understanding what to do after the consultation"
+        ]
+      },
+      {
+        title: "When support is most useful",
+        paragraphs: [
+          "Support is especially useful for first-time hospital visits, specialist appointments, multi-step testing days, pediatric visits, and any situation where a patient feels uncertain about language or hospital process.",
+          "CareBridge China supports foreigners with in-person hospital accompaniment, communication help, and practical navigation through the visit. It does not replace a doctor or provide diagnosis."
+        ]
+      }
+    ]
+  },
+  {
+    path: "/guides/public-hospital-vs-international-clinic-shanghai",
+    title: "Public Hospital vs International Clinic in Shanghai | CareBridge China",
+    description:
+      "Understand the difference between public hospitals and international clinics in Shanghai, including speed, cost, specialist access, and when each option makes sense.",
+    keywords: [
+      "public hospital vs international clinic shanghai",
+      "international clinic shanghai vs hospital",
+      "where should foreigners go for medical care in shanghai"
+    ],
+    eyebrow: "Choosing Care in Shanghai",
+    heading: "Public hospital vs international clinic in Shanghai",
+    intro:
+      "Foreigners in Shanghai often ask whether they should go to a public hospital or an international clinic. The answer depends on urgency, budget, specialty needs, and how comfortable you are navigating the system.",
+    sections: [
+      {
+        title: "Why public hospitals are often chosen",
+        bullets: [
+          "Broader specialist coverage",
+          "Strong diagnostic and testing resources",
+          "Lower cost for many consultations and procedures",
+          "Better fit for more complex or specialist-driven cases"
+        ]
+      },
+      {
+        title: "Why international clinics are often chosen",
+        bullets: [
+          "More English-language support built into the experience",
+          "Simpler appointment flow",
+          "More familiar patient experience for many foreigners",
+          "Good fit for straightforward consultations if budget is less sensitive"
+        ]
+      },
+      {
+        title: "What foreigners should consider",
+        paragraphs: [
+          "If you want the broadest access to specialists and are comfortable with a more complex process, public hospitals may be the better option. If convenience and built-in communication support matter more than price, international clinics may be the better fit.",
+          "Many foreigners choose public hospitals when they want stronger specialist access but add operational support to reduce friction during the visit."
+        ]
+      },
+      {
+        title: "Where CareBridge China fits",
+        paragraphs: [
+          "CareBridge China helps foreigners navigate hospital visits with practical support before, during, and after the appointment. That can be especially useful when a patient wants the resources of a public hospital without managing the process alone.",
+          "The service focuses on navigation, communication, and coordination. Medical decisions remain with licensed providers."
+        ]
+      }
+    ]
+  },
+  {
+    path: "/guides/hospital-translation-help-shanghai",
+    title: "When Foreigners Need Hospital Translation Help in Shanghai | CareBridge China",
+    description:
+      "Learn when hospital translation and accompaniment help are most useful in Shanghai, especially for specialist visits, testing, family care, and first-time appointments.",
+    keywords: [
+      "hospital translation help shanghai",
+      "hospital translator shanghai foreigner",
+      "medical translation support shanghai"
+    ],
+    eyebrow: "Communication and Navigation Support",
+    heading: "When foreigners need hospital translation help in Shanghai",
+    intro:
+      "Language is only one part of the problem during a hospital visit. Many foreigners need help not only translating words, but also understanding process, payment steps, department routing, and what happens after the consultation.",
+    sections: [
+      {
+        title: "Situations where support matters most",
+        bullets: [
+          "First-time hospital visits in Shanghai",
+          "Specialist appointments with more detailed discussion",
+          "Multi-step testing or imaging days",
+          "Pediatric visits with stressed parents",
+          "Visits where the patient is already in pain or anxious"
+        ]
+      },
+      {
+        title: "Why translation alone is sometimes not enough",
+        paragraphs: [
+          "A patient may understand the doctor but still be unsure where to go next, how to pay, where to collect medication, or whether another department is involved. That is why accompaniment and hospital navigation can matter as much as language support.",
+          "In practice, many foreigners want one person who can help them move through the full visit instead of solving each problem separately."
+        ]
+      },
+      {
+        title: "What practical support can include",
+        bullets: [
+          "Registration and queue navigation",
+          "Live interpretation during the consultation",
+          "Payment and pharmacy support",
+          "Clarifying next steps after the visit",
+          "Reducing confusion during a stressful day"
+        ]
+      },
+      {
+        title: "Service boundary",
+        paragraphs: [
+          "CareBridge China is a hospital accompaniment and navigation service for foreigners in Shanghai. It does not diagnose, prescribe, or replace licensed medical providers.",
+          "For emergencies, patients should go to the nearest emergency department immediately."
+        ]
+      }
+    ]
+  },
+  {
+    path: "/guides/pediatric-hospital-visit-shanghai-foreign-family",
+    title: "Pediatric Hospital Visits in Shanghai for Foreign Families | CareBridge China",
+    description:
+      "A practical guide for foreign families preparing for pediatric hospital visits in Shanghai, including what to bring, what to expect, and where support helps most.",
+    keywords: [
+      "pediatric hospital visit shanghai foreign family",
+      "children hospital shanghai foreigners",
+      "foreign family pediatric hospital shanghai"
+    ],
+    eyebrow: "Guide for Foreign Parents",
+    heading: "Pediatric hospital visits in Shanghai for foreign families",
+    intro:
+      "When a child is sick, parents need speed and clarity. In Shanghai, pediatric care can be strong and efficient, but the process can still feel overwhelming if the system is unfamiliar or language is a barrier.",
+    sections: [
+      {
+        title: "What parents should prepare",
+        bullets: [
+          "Passport or identification for the child and parent",
+          "A short symptom summary with timing and recent changes",
+          "Previous prescriptions, vaccination records, or recent medical notes",
+          "Items the child may need while waiting",
+          "A plan for payment and transport"
+        ]
+      },
+      {
+        title: "What makes pediatric visits stressful",
+        paragraphs: [
+          "Parents are often making decisions quickly while also trying to comfort a child. That makes language friction and unclear hospital flow much harder than usual.",
+          "Even routine steps like registration, moving between departments, or collecting medication can feel more difficult when the child is already uncomfortable."
+        ]
+      },
+      {
+        title: "When accompaniment helps most",
+        bullets: [
+          "First pediatric visits in Shanghai",
+          "Fever and common illness visits",
+          "Vaccination appointments",
+          "Follow-up visits with multiple steps",
+          "Situations where parents want clearer communication during the visit"
+        ]
+      },
+      {
+        title: "Where CareBridge China fits",
+        paragraphs: [
+          "CareBridge China helps foreign families with hospital navigation, communication support, and in-person accompaniment during pediatric visits in Shanghai.",
+          "The service supports the process around the visit. Medical diagnosis and treatment remain with licensed providers."
+        ]
+      }
+    ]
+  },
+  {
+    path: "/guides/dental-care-shanghai-foreigners",
+    title: "Dental Care in Shanghai for Foreigners | CareBridge China",
+    description:
+      "A practical guide for foreigners seeking dental care in Shanghai, including common visit types, what to expect, and when support can reduce friction.",
+    keywords: [
+      "dental care shanghai foreigners",
+      "dentist shanghai foreigner help",
+      "dental visit shanghai english support"
+    ],
+    eyebrow: "Dental Visits in Shanghai",
+    heading: "Dental care in Shanghai for foreigners",
+    intro:
+      "Dental visits are a common reason foreigners seek help in Shanghai. The treatment itself may be routine, but the surrounding process can still be difficult if you are handling registration, communication, and payment alone.",
+    sections: [
+      {
+        title: "Common dental visit types",
+        bullets: [
+          "Tooth pain and urgent dental discomfort",
+          "Repairs, fillings, and crown-related visits",
+          "Follow-up treatment plans",
+          "Routine cleaning or examination",
+          "Dental imaging and specialist consultation"
+        ]
+      },
+      {
+        title: "What foreigners usually need help with",
+        bullets: [
+          "Choosing the right clinic or department",
+          "Understanding treatment flow and next steps",
+          "Communicating pain level and treatment history",
+          "Handling payment and receipts",
+          "Following multi-visit treatment plans"
+        ]
+      },
+      {
+        title: "Why support matters for dental visits",
+        paragraphs: [
+          "Dental care often involves multiple visits, treatment explanations, imaging, and follow-up decisions. That can be manageable in your home country but more stressful in a new system.",
+          "Practical support helps reduce friction so the patient can focus on the treatment instead of the process around it."
+        ]
+      },
+      {
+        title: "Service boundary",
+        paragraphs: [
+          "CareBridge China can help foreigners navigate dental visits in Shanghai with accompaniment and communication support.",
+          "It does not provide dental treatment or medical advice."
+        ]
+      }
+    ]
+  },
+  {
+    path: "/guides/hospital-costs-shanghai-foreigners",
+    title: "What Foreigners Should Expect from Hospital Costs in Shanghai | CareBridge China",
+    description:
+      "A practical overview of what foreigners should expect from hospital costs in Shanghai, including service fees, provider charges, and why pricing can vary.",
+    keywords: [
+      "hospital costs shanghai foreigners",
+      "medical costs shanghai foreigner",
+      "how much does hospital visit cost shanghai"
+    ],
+    eyebrow: "Hospital Costs in Shanghai",
+    heading: "What foreigners should expect from hospital costs in Shanghai",
+    intro:
+      "One of the first questions foreigners ask is how much a hospital visit in Shanghai will cost. The answer depends on where you go, what department you need, and whether the visit involves tests, imaging, medication, or follow-up treatment.",
+    sections: [
+      {
+        title: "Why hospital costs vary",
+        bullets: [
+          "Public hospital vs international clinic",
+          "General consultation vs specialist care",
+          "Whether tests or imaging are needed",
+          "Medication and pharmacy cost",
+          "Single visit vs multi-step treatment"
+        ]
+      },
+      {
+        title: "What to separate in your budget",
+        paragraphs: [
+          "Foreign patients should separate the cost of the medical provider from the cost of support around the visit. Hospital registration, consultation, tests, and medication are charged by the provider.",
+          "CareBridge China charges separately for accompaniment and coordination support, and those fees are shown in advance."
+        ]
+      },
+      {
+        title: "Why clarity matters",
+        paragraphs: [
+          "Cost uncertainty adds stress, especially when the patient is already dealing with symptoms or an unfamiliar process. Clear separation between provider charges and support-service charges helps patients make decisions faster.",
+          "That is one reason transparent support pricing can improve trust for foreigners who are comparing options."
+        ]
+      },
+      {
+        title: "What CareBridge China includes",
+        bullets: [
+          "Transparent accompaniment pricing before the visit",
+          "Clear statement of what is and is not included",
+          "Support with hospital navigation and communication",
+          "No medical claims or bundled treatment pricing"
+        ]
+      }
+    ]
+  },
+  {
+    path: "/guides/foreigner-hospital-procedure-shanghai",
+    title: "What a Foreigner's Hospital Visit in Shanghai Reveals About the Real Process | CareBridge China",
+    description:
+      "A practical blog post on what a foreigner's hospital visit in Shanghai reveals about registration, payment, language barriers, and the real process around care.",
+    keywords: [
+      "foreigner hospital procedure shanghai",
+      "hospital process shanghai foreigner",
+      "how hospital visits work in shanghai for foreigners"
+    ],
+    eyebrow: "Foreigner Hospital Experience in Shanghai",
+    heading: "What a foreigner's hospital visit in Shanghai reveals about the real process",
+    intro:
+      "Videos made by foreigners about hospital visits in China are useful because they show something many people only understand after they go through it themselves: the medical care may be solid, but the real challenge is often the process around the visit.",
+    sections: [
+      {
+        title: "Why hospital visit videos matter",
+        paragraphs: [
+          "For foreigners in Shanghai, the hardest part of going to hospital is not always the health problem itself. It is often the logistics around the visit: registration, choosing the right department, payment, waiting, pharmacy pickup, and understanding what to do next.",
+          "That is why first-hand videos and personal accounts are useful. They make visible the parts of the system that locals may treat as normal but that can feel confusing or intimidating for someone who does not speak Chinese or has never used the system before."
+        ]
+      },
+      {
+        title: "What a typical hospital process can look like",
+        paragraphs: [
+          "In Shanghai, a hospital visit often begins with registration. After that, patients may move through a consultation, payment, testing, imaging, prescription pickup, or follow-up instructions depending on the case.",
+          "On paper, this flow can look straightforward. In practice, it can feel fragmented for foreigners because each step may happen in a different place, instructions may not be available in clear English, and the patient may have to make decisions quickly while already feeling unwell."
+        ]
+      },
+      {
+        title: "Where foreigners usually feel the most friction",
+        bullets: [
+          "Choosing the right hospital or department",
+          "Handling registration and queue flow",
+          "Communicating clearly during the consultation",
+          "Paying at the right stage and understanding receipts",
+          "Knowing where to pick up medicine and what the next step is"
+        ]
+      },
+      {
+        title: "Why this does not mean Shanghai lacks strong care",
+        paragraphs: [
+          "The issue is not simply whether Shanghai has strong hospitals. In fact, official Shanghai data shows that the city is serving a growing number of foreign patients and continuing to expand international medical services.",
+          "According to official Shanghai sources published in March 2026, public hospitals in the city recorded 73,200 visits by foreign patients in 2025, up more than 8 percent year on year. The city has also been expanding pilot international medical service programs and international medical tourism pilots."
+        ]
+      },
+      {
+        title: "The real takeaway for foreigners",
+        paragraphs: [
+          "A foreigner's hospital visit in Shanghai often shows the same pattern: good medical resources may exist, but access feels much easier when someone understands the process, the language, and the hospital workflow.",
+          "That is why many foreigners solve the problem in one of a few ways: they choose an international clinic, bring a Chinese-speaking friend, rely on translation apps, or delay care because the whole process feels too complicated."
+        ]
+      },
+      {
+        title: "Where support fits in",
+        paragraphs: [
+          "CareBridge China exists around that non-medical gap. The service is designed to help foreigners navigate registration, communication, hospital flow, payment, and follow-up in Shanghai.",
+          "It is not a clinic and does not provide diagnosis or treatment. The goal is to make the process around the visit easier to understand and easier to get through."
+        ]
+      }
+    ],
+    references: [
+      {
+        label: "Shanghai official English report: Advanced care draws growing number of overseas patients to Shanghai",
+        url: "https://english.shanghai.gov.cn/en-Latest-WhatsNew/20260303/56484619104544d8a49847ab9a4c389b.html"
+      },
+      {
+        label: "Shanghai official English report: Shanghai aims to strengthen global medical hub status",
+        url: "https://english.shanghai.gov.cn/en-Latest-WhatsNew/20260305/64f641c0e82b408b8ba64c6cc276550e.html"
+      },
+      {
+        label: "Shanghai government report in Chinese on foreign-patient growth and international medical services",
+        url: "https://www.shanghai.gov.cn/nw4411/20260227/889d2e029aed40f99464ea79426726a9.html"
+      }
+    ]
+  },
+  {
+    path: "/guides/circumcision-surgery-experience-shanghai-tongji-hospital",
+    title: "My Circumcision Surgery Experience at Shanghai Tongji Hospital | CareBridge China",
+    description:
+      "A first-person account of getting circumcision surgery at Shanghai Tongji Hospital, including the appointment flow, waiting time, surgery process, and total cost.",
+    keywords: [
+      "circumcision surgery shanghai tongji hospital",
+      "circumcision experience shanghai hospital",
+      "tongji hospital shanghai circumcision cost"
+    ],
+    eyebrow: "First-Person Hospital Experience",
+    heading: "My circumcision surgery experience at Shanghai Tongji Hospital",
+    intro:
+      "Yesterday, I had circumcision surgery at Shanghai Tongji Hospital, and the whole experience was much faster and more efficient than I expected. From the moment I entered the hospital to the moment I left, everything was done in less than three hours.",
+    sections: [
+      {
+        title: "Arrival and first consultation",
+        paragraphs: [
+          "I had booked an appointment for the 1:30 to 2:00 pm time slot, and I arrived at the hospital at 1:30 pm. The first thing I did was register and pay at the cashier. After that, I went to the appointed department and waited in line.",
+          "I waited for about half an hour before the doctor called me in. He asked about my situation, examined me, and then told me I needed to go to another surgery doctor to arrange the procedure."
+        ]
+      },
+      {
+        title: "Booking the surgery on the same day",
+        paragraphs: [
+          "After that, I found the surgery doctor, got checked again, and paid the surgery fee. I asked whether the procedure could be arranged as soon as possible.",
+          "Fortunately, there was a vacancy that same afternoon. That was the part that surprised me most. Once the doctors confirmed the plan, everything moved very quickly."
+        ]
+      },
+      {
+        title: "Preparation before the operation",
+        paragraphs: [
+          "The medical staff prepared things quickly. They brought me a hospital gown, helped shave the surgical area, and then transported me to the operating room on an operation cart.",
+          "Even though it was a short procedure, the preparation felt organized and professional."
+        ]
+      },
+      {
+        title: "The surgery itself",
+        paragraphs: [
+          "The surgery was very fast. It took about 15 minutes from start to finish.",
+          "After the operation, I was taken to the inpatient ward, where I rested for a while before leaving."
+        ]
+      },
+      {
+        title: "Leaving the hospital",
+        paragraphs: [
+          "After resting for a short time, I paid the remaining fee and left the hospital at 4:01 pm.",
+          "Looking back at the full timeline, I arrived at 1:30 pm and left at 4:01 pm, so the entire process took less than three hours."
+        ]
+      },
+      {
+        title: "Total cost and overall impression",
+        bullets: [
+          "Arrival time: 1:30 pm",
+          "Exit time: 4:01 pm",
+          "Total time in hospital: less than 3 hours",
+          "Surgery time: around 15 minutes",
+          "Total fee: 2708 yuan"
+        ]
+      },
+      {
+        title: "What stood out to me",
+        paragraphs: [
+          "My overall impression of Shanghai Tongji Hospital was very positive. The doctors and medical staff were professional, the process was highly efficient, and the surgery was arranged much faster than I expected.",
+          "For me, the biggest takeaway was how quickly everything moved once the doctors confirmed the situation. From consultation to surgery to discharge, the whole process felt organized and smooth."
+        ]
+      }
+    ]
+  }
+];
 
 function normalizePath(pathname: string) {
   const normalized = pathname.replace(/\/+$/, "");
@@ -447,6 +1079,7 @@ function Header({ compact = false }: { compact?: boolean }) {
           <a href="/#pricing">Pricing</a>
           <a href="/#faq">FAQ</a>
           <a href="/english-speaking-hospital-support-shanghai">English support</a>
+          <a href="/guides">Guides</a>
         </nav>
         <a
           href={compact ? "#request" : "/#request"}
@@ -708,6 +1341,26 @@ function LandingPageView({
           </div>
         </section>
 
+        <section className="section-surface py-16">
+          <div className="container-shell">
+            <h2 className="section-title">Frequently asked questions</h2>
+            <p className="section-copy">
+              These answers address common questions people search before requesting support.
+            </p>
+            <div className="mt-10 grid gap-6 lg:grid-cols-3">
+              {page.faqs.map((item) => (
+                <article
+                  key={item.question}
+                  className="card transition duration-200 hover:-translate-y-0.5"
+                >
+                  <h3 className="text-lg font-semibold text-slate-900">{item.question}</h3>
+                  <p className="mt-3 text-sm leading-6 text-slate-600">{item.answer}</p>
+                </article>
+              ))}
+            </div>
+          </div>
+        </section>
+
         <RequestForm
           form={form}
           setForm={setForm}
@@ -718,6 +1371,149 @@ function LandingPageView({
           copy="Complete the form below and our team will review your request, confirm availability, and contact you with pricing, timing, and the next step."
           suitableFor={page.useCases.join(", ")}
         />
+      </main>
+      <Footer />
+    </div>
+  );
+}
+
+function ArticlePageView({ page }: { page: ArticlePage }) {
+  return (
+    <div>
+      <Header compact />
+      <main>
+        <section className="container-shell py-20">
+          <div className="max-w-4xl">
+            <span className="inline-flex rounded-full border border-slate-200 bg-white px-4 py-1 text-sm font-medium text-brand-800">
+              {page.eyebrow}
+            </span>
+            <h1 className="mt-6 text-5xl font-semibold tracking-tight text-slate-900 md:text-6xl">
+              {page.heading}
+            </h1>
+            <p className="mt-6 text-lg leading-8 text-slate-600">{page.intro}</p>
+          </div>
+        </section>
+
+        <section className="section-surface py-16">
+          <div className="container-shell max-w-4xl">
+            <article className="prose prose-slate max-w-none">
+              {page.sections.map((section) => (
+                <section key={section.title} className="mb-12 last:mb-0">
+                  <h2 className="text-3xl font-semibold tracking-tight text-slate-900">
+                    {section.title}
+                  </h2>
+                  {section.paragraphs?.map((paragraph) => (
+                    <p key={paragraph} className="mt-4 text-base leading-7 text-slate-600">
+                      {paragraph}
+                    </p>
+                  ))}
+                  {section.bullets ? (
+                    <ul className="mt-5 space-y-3 text-base leading-7 text-slate-600">
+                      {section.bullets.map((bullet) => (
+                        <li key={bullet} className="flex gap-3">
+                          <span className="mt-3 h-2 w-2 rounded-full bg-brand-700" />
+                          <span>{bullet}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  ) : null}
+                </section>
+              ))}
+            </article>
+            {page.references?.length ? (
+              <div className="mt-12 rounded-2xl border border-slate-200 bg-white p-6 shadow-soft">
+                <h2 className="text-2xl font-semibold text-slate-900">Sources</h2>
+                <ul className="mt-4 space-y-3 text-sm leading-6 text-slate-600">
+                  {page.references.map((reference) => (
+                    <li key={reference.url}>
+                      <a
+                        href={reference.url}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="text-brand-700 underline decoration-brand-200 underline-offset-4 transition hover:text-brand-800"
+                      >
+                        {reference.label}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ) : null}
+          </div>
+        </section>
+
+        <section className="container-shell py-16">
+          <div className="rounded-2xl border border-slate-200 bg-slate-50 p-8 shadow-soft">
+            <h2 className="text-2xl font-semibold text-slate-900">
+              Need hospital support in Shanghai?
+            </h2>
+            <p className="mt-4 max-w-3xl text-sm leading-6 text-slate-600">
+              CareBridge China helps foreigners with hospital navigation, communication, and
+              in-person accompaniment. Request support if you want help before or during a hospital visit.
+            </p>
+            <div className="mt-6 flex flex-col gap-4 sm:flex-row">
+              <a
+                href="/#request"
+                className="rounded-full bg-brand-700 px-6 py-3 text-center text-sm font-semibold text-white transition hover:bg-brand-800"
+              >
+                Request support
+              </a>
+              <a
+                href="/english-speaking-hospital-support-shanghai"
+                className="rounded-full border border-slate-300 bg-white px-6 py-3 text-center text-sm font-semibold text-slate-700 transition hover:border-slate-400"
+              >
+                View service page
+              </a>
+            </div>
+          </div>
+        </section>
+      </main>
+      <Footer />
+    </div>
+  );
+}
+
+function GuidesHubPage() {
+  return (
+    <div>
+      <Header compact />
+      <main>
+        <section className="container-shell py-20">
+          <div className="max-w-4xl">
+            <span className="inline-flex rounded-full border border-slate-200 bg-white px-4 py-1 text-sm font-medium text-brand-800">
+              CareBridge China Guides
+            </span>
+            <h1 className="mt-6 text-5xl font-semibold tracking-tight text-slate-900 md:text-6xl">
+              Practical hospital guides for foreigners in Shanghai
+            </h1>
+            <p className="mt-6 text-lg leading-8 text-slate-600">
+              These guides answer common search questions from foreigners preparing for hospital visits in Shanghai.
+            </p>
+          </div>
+        </section>
+
+        <section className="section-surface py-16">
+          <div className="container-shell">
+            <div className="grid gap-6 lg:grid-cols-3">
+              {articlePages.map((article) => (
+                <article
+                  key={article.path}
+                  className="card transition duration-200 hover:-translate-y-0.5"
+                >
+                  <p className="text-sm font-semibold text-brand-700">{article.eyebrow}</p>
+                  <h2 className="mt-3 text-xl font-semibold text-slate-900">{article.heading}</h2>
+                  <p className="mt-3 text-sm leading-6 text-slate-600">{article.description}</p>
+                  <a
+                    href={article.path}
+                    className="mt-6 inline-flex text-sm font-semibold text-brand-700 transition hover:text-brand-800"
+                  >
+                    Read guide
+                  </a>
+                </article>
+              ))}
+            </div>
+          </div>
+        </section>
       </main>
       <Footer />
     </div>
@@ -902,6 +1698,33 @@ function HomePage({
                   </span>
                   <h3 className="text-lg font-semibold text-slate-900">{item.title}</h3>
                   <p className="mt-3 text-sm leading-6 text-slate-600">{item.copy}</p>
+                </article>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="section-surface py-16">
+          <div className="container-shell">
+            <h2 className="section-title">Practical guides for foreigners in Shanghai</h2>
+            <p className="section-copy">
+              These guides answer common search questions from foreigners preparing for hospital visits in Shanghai.
+            </p>
+            <div className="mt-10 grid gap-6 lg:grid-cols-3">
+              {articlePages.map((article) => (
+                <article
+                  key={article.path}
+                  className="card transition duration-200 hover:-translate-y-0.5"
+                >
+                  <p className="text-sm font-semibold text-brand-700">{article.eyebrow}</p>
+                  <h3 className="mt-3 text-xl font-semibold text-slate-900">{article.heading}</h3>
+                  <p className="mt-3 text-sm leading-6 text-slate-600">{article.description}</p>
+                  <a
+                    href={article.path}
+                    className="mt-6 inline-flex text-sm font-semibold text-brand-700 transition hover:text-brand-800"
+                  >
+                    Read guide
+                  </a>
                 </article>
               ))}
             </div>
@@ -1446,23 +2269,34 @@ function App() {
   const [status, setStatus] = useState("");
 
   const landingPage = landingPages.find((page) => page.path === pathname);
+  const articlePage = articlePages.find((page) => page.path === pathname);
+  const isGuidesHubPage = pathname === "/guides";
   const isLeadsReportPage = pathname === "/ops/leads";
 
   const pageTitle = isLeadsReportPage
     ? "CareBridge China | Internal Lead Report"
-    : landingPage?.title ?? "CareBridge China | Hospital Support for Foreigners in Shanghai";
+    : isGuidesHubPage
+      ? "CareBridge China Guides | Hospital Help for Foreigners in Shanghai"
+      : landingPage?.title ??
+        articlePage?.title ??
+        "CareBridge China | Hospital Support for Foreigners in Shanghai";
   const pageDescription =
     isLeadsReportPage
       ? "Internal lead reporting for CareBridge China."
-      : landingPage?.description ??
-        "CareBridge China provides in-person hospital accompaniment and English-speaking support for foreigners navigating hospital visits in Shanghai.";
+      : isGuidesHubPage
+        ? "Practical hospital guides for foreigners in Shanghai from CareBridge China."
+        : landingPage?.description ??
+          articlePage?.description ??
+          "CareBridge China provides in-person hospital accompaniment and English-speaking support for foreigners navigating hospital visits in Shanghai.";
   const canonicalUrl = `${siteUrl}${pathname === "/" ? "" : pathname}`;
-  const pageKeywords = landingPage?.keywords ?? [
-    "hospital support shanghai",
-    "hospital companion china",
-    "hospital help for foreigners shanghai",
-    "medical translator shanghai"
-  ];
+  const pageKeywords =
+    landingPage?.keywords ??
+    articlePage?.keywords ?? [
+      "hospital support shanghai",
+      "hospital companion china",
+      "hospital help for foreigners shanghai",
+      "medical translator shanghai"
+    ];
 
   useEffect(() => {
     document.title = pageTitle;
@@ -1504,7 +2338,42 @@ function App() {
       description: pageDescription,
       url: canonicalUrl
     });
-  }, [pageDescription, pageTitle]);
+    if (articlePage) {
+      setJsonLd("carebridge-article", {
+        "@context": "https://schema.org",
+        "@type": "Article",
+        headline: articlePage.heading,
+        description: articlePage.description,
+        author: {
+          "@type": "Organization",
+          name: "CareBridge China"
+        },
+        publisher: {
+          "@type": "Organization",
+          name: "CareBridge China"
+        },
+        mainEntityOfPage: canonicalUrl,
+        url: canonicalUrl
+      });
+    } else if (isGuidesHubPage) {
+      setJsonLd("carebridge-article", {
+        "@context": "https://schema.org",
+        "@type": "CollectionPage",
+        name: "CareBridge China Guides",
+        description: pageDescription,
+        url: canonicalUrl
+      });
+    }
+  }, [
+    articlePage,
+    canonicalUrl,
+    isGuidesHubPage,
+    isLeadsReportPage,
+    landingPage,
+    pageDescription,
+    pageKeywords,
+    pageTitle
+  ]);
 
   useEffect(() => {
     setForm((current) => ({
@@ -1567,6 +2436,14 @@ function App() {
         onSubmit={handleSubmit}
       />
     );
+  }
+
+  if (articlePage) {
+    return <ArticlePageView page={articlePage} />;
+  }
+
+  if (isGuidesHubPage) {
+    return <GuidesHubPage />;
   }
 
   if (isLeadsReportPage) {
